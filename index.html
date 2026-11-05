@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מתי״א בקליק</title>
+<meta name="theme-color" content="#222b19">
+<style>html,body{margin:0;background:#222b19;color:#f4f2ec;font:18px system-ui,sans-serif}#b{padding:40vh 20px 0;text-align:center}</style>
+</head><body><div id="b">טוען…</div>
+<script>
+(function(){
+  var API='https://script.google.com/macros/s/AKfycbyfJahdy3Z71hOAyaGKA6gWnWvtjkthGbZuinx8RFXb1F8W_ehYvLWTX8RMcwQHRPxYuQ/exec', KEY='matya_app_html', K='';
+  try{K=new URLSearchParams(location.search).get('k')||'';}catch(e){}
+  function ico(n){var c=document.createElement('canvas');c.width=c.height=n;var x=c.getContext('2d');x.fillStyle='#222b19';x.fillRect(0,0,n,n);x.strokeStyle='#a27853';x.lineWidth=n*0.03;x.strokeRect(n*0.06,n*0.06,n*0.88,n*0.88);x.fillStyle='#f4f2ec';x.textAlign='center';x.textBaseline='middle';x.direction='rtl';x.font='bold '+Math.round(n*0.26)+'px Arial,sans-serif';x.fillText('מתי״א',n/2,n*0.4);x.fillStyle='#d1ae8b';x.font='bold '+Math.round(n*0.19)+'px Arial,sans-serif';x.fillText('בקליק',n/2,n*0.66);return c.toDataURL('image/png');}
+  var BASE=location.origin+location.pathname, I192='', I512='', I180='', MAN='';
+  try{I192=ico(192);I512=ico(512);I180=ico(180);MAN=URL.createObjectURL(new Blob([JSON.stringify({name:'מתי״א בקליק',short_name:'מתי״א בקליק',lang:'he',dir:'rtl',id:BASE,start_url:BASE,scope:BASE,display:'standalone',orientation:'portrait',background_color:'#222b19',theme_color:'#222b19',icons:[{src:I192,sizes:'192x192',type:'image/png'},{src:I512,sizes:'512x512',type:'image/png'}]})],{type:'application/manifest+json'}));}catch(e){}
+  var HEAD='<link rel="manifest" href="'+MAN+'"><meta name="theme-color" content="#222b19"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="מתי״א בקליק"><link rel="apple-touch-icon" href="'+I180+'"><link rel="icon" href="'+I192+'">';
+  var SHIM='<script>(function(){var API="'+API+'";function mk(ok,fail){var o={withSuccessHandler:function(f){return mk(f,fail);},withFailureHandler:function(f){return mk(ok,f);}};return new Proxy(o,{get:function(t,k){if(k in t)return t[k];return function(){var a=Array.prototype.slice.call(arguments);fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({fn:String(k),args:a})}).then(function(r){return r.json();}).then(function(j){if(j&&j.ok){if(ok)ok(j.v);}else{if(fail)fail(new Error((j&&j.err)||"שגיאה"));}}).catch(function(){if(fail)fail(new Error("אין חיבור לשרת. בדוק אינטרנט ונסה שוב."));});};}});}window.google={script:{run:mk(null,null)}};})();<\/script>';
+  function build(h){
+    h=h.replace("var INIT_HK = '__HK__';",function(){return "var INIT_HK = "+JSON.stringify(K)+";";});
+    h=h.replace('</title>','</title>'+HEAD);
+    h=h.replace('<script>',SHIM+'<script>');
+    return h;
+  }
+  function show(h){function go(){setTimeout(function(){document.open();document.write(build(h));document.close();},0);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();}
+  function fetchFresh(){
+    return fetch(API+'?app=1',{cache:'no-store'}).then(function(r){return r.text();}).then(function(t){
+      if(t&&t.indexOf('<!DOCTYPE html>')===0){try{localStorage.setItem(KEY,t);}catch(e){}return t;}
+      throw new Error('bad');
+    });
+  }
+  if('serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js');}catch(e){}}
+  var cached=null;try{cached=localStorage.getItem(KEY);}catch(e){}
+  if(cached){show(cached);setTimeout(function(){fetchFresh().catch(function(){});},4000);}
+  else{fetchFresh().then(show).catch(function(){document.getElementById('b').textContent='אין חיבור. בדוק אינטרנט ורענן.';});}
+})();
+</script></body></html>
